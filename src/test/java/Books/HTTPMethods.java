@@ -5,6 +5,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pojo.BookPojo;
 
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,28 @@ public class HTTPMethods {
         Map<String,String> bookingDatesInformation= (Map<String, String>) deserializedResponse.get("bookingdates");
         Assert.assertEquals(bookingDatesInformation.get("checkin"),"2024-01-01");
         Assert.assertEquals(bookingDatesInformation.get("checkout"),"2024-01-05");
+    }
+
+
+    //POJO BOOK DETAIL
+
+    @Test
+    public void validateBookDetailWithPojo(){
+        RestAssured.baseURI="https://restful-booker.herokuapp.com";
+        RestAssured.basePath="booking/8384";
+        Response response=RestAssured.given()
+                .header("Accept","application/json")
+                .when().get()
+                .then().log().body()
+                .statusCode(200).extract().response();
+        BookPojo deserializedResponse=response.as(BookPojo.class);
+        Assert.assertEquals(deserializedResponse.getFirstname(),"Ahmet");
+        Assert.assertEquals(deserializedResponse.getLastname(),"Baldir");
+        Assert.assertEquals(deserializedResponse.getTotalprice(),999);
+        Assert.assertTrue(deserializedResponse.isDepositpaid());
+//        Assert.assertEquals(deserializedResponse.getAdditionalneeds(),"SDET IT");
+        Assert.assertEquals(deserializedResponse.getBookingdates().getCheckin(),"2024-01-01");
+        Assert.assertEquals(deserializedResponse.getBookingdates().getCheckout(),"2024-01-05");
     }
 
     @Test
