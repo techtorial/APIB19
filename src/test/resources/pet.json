@@ -1,0 +1,11 @@
+{
+  "id": 15,
+  "name": "Queen",
+  "photoUrls": null,
+  "status": "OnHold",
+  "category": {
+    "id": 99,
+    "name": "AWESOME"
+  },
+  "tags": null
+}
